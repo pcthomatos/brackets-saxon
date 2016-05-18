@@ -1,0 +1,21 @@
+{
+  "name": "brackets-saxon",
+  "title": "Brackets Saxon XSl Tranforms",
+  "description": "XSL Transformations for Brackets",
+  "homepage": "https://github.com/pcthomatos/brackets-saxon",
+  "version": "1.0.2",
+  "license": "MIT",
+  "engines": {
+    "brackets": ">=0.44.0"
+  },
+  "keywords": [
+    "xml",
+    "xsl",
+    "xslt",
+    "transform",
+    "transfromation"
+  ],
+  "dependencies": {
+    "treekill": "0.0.0"
+  }
+}
