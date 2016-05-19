@@ -183,35 +183,39 @@ define(function (require, exports, module) {
                     // Only saving
                     if (id !== "ok") return;
 
-                    var saxon = saxonJar.value,
-                        xsl = xslLocation.value,
-                        xml = xmlLocation.value,
-                        output = outputLocation.value;
+                    var saxon   = saxonJar.value,
+                        classPath   = classPathJar.value,
+                        xsl     = xslLocation.value,
+                        xml     = xmlLocation.value,
+                        output  = outputLocation.value;
 
                     // Store autoscroll config globally
                     scrollEnabled = scrollInput.checked;
 
-                    prefs.set("saxon-bin", saxon.trim());
-                    prefs.set("saxon-xsl", xsl.trim());
-                    prefs.set("saxon-xml", xml.trim());
+                    prefs.set("saxon-bin",    saxon.trim());
+                    prefs.set("classPath-bin",    classPath.trim());
+                    prefs.set("saxon-xsl",    xsl.trim());
+                    prefs.set("saxon-xml",    xml.trim());
                     prefs.set("saxon-output", output.trim());
-                    prefs.set("autoscroll", scrollEnabled);
+                    prefs.set("autoscroll",   scrollEnabled);
                     prefs.save();
 
                 });
 
                 // It's important to get the elements after the modal is rendered but before the done event
-                var saxonJar = document.querySelector("." + SAXON_SETTINGS_DIALOG_ID + " .saxonJar"),
-                    xslLocation = document.querySelector("." + SAXON_SETTINGS_DIALOG_ID + " .xslLocation"),
-                    xmlLocation = document.querySelector("." + SAXON_SETTINGS_DIALOG_ID + " .xmlLocation"),
-                    outputLocation = document.querySelector("." + SAXON_SETTINGS_DIALOG_ID + " .outputLocation"),
-                    scrollInput = document.querySelector("." + SAXON_SETTINGS_DIALOG_ID + " .autoscroll");
+                var saxonJar        = document.querySelector("." + SAXON_SETTINGS_DIALOG_ID + " .saxonJar"),
+                    classPathJar    = document.querySelector("." + SAXON_SETTINGS_DIALOG_ID + " .classPathJar"),
+                    xslLocation     = document.querySelector("." + SAXON_SETTINGS_DIALOG_ID + " .xslLocation"),
+                    xmlLocation     = document.querySelector("." + SAXON_SETTINGS_DIALOG_ID + " .xmlLocation"),
+                    outputLocation  = document.querySelector("." + SAXON_SETTINGS_DIALOG_ID + " .outputLocation"),
+                    scrollInput     = document.querySelector("." + SAXON_SETTINGS_DIALOG_ID + " .autoscroll");
 
-                saxonJar.value = prefs.get("saxon-bin");
-                xslLocation.value = prefs.get("saxon-xsl");
-                xmlLocation.value = prefs.get("saxon-xml");
-                outputLocation.value = prefs.get("saxon-output");
-                scrollInput.checked = prefs.get("autoscroll");
+                saxonJar.value        = prefs.get("saxon-bin");
+                classPathJar.value    = prefs.get("classPath-bin") || '';
+                xslLocation.value     = prefs.get("saxon-xsl");
+                xmlLocation.value     = prefs.get("saxon-xml");
+                outputLocation.value  = prefs.get("saxon-output");
+                scrollInput.checked   = prefs.get("autoscroll");
             }
         }
     };
@@ -223,7 +227,8 @@ define(function (require, exports, module) {
         CONFIG_CMD_ID = "brackets-saxon.config";
 
     CommandManager.register("Run XSL Transform", RUN_CMD_ID, function () {
-        buildHB('java -jar ' + prefs.get("saxon-bin") + ' -t -s:'  + prefs.get("saxon-xml") + ' -xsl:'  + prefs.get("saxon-xsl") + " -o:" + prefs.get("saxon-output") );
+        console.log('java -cp "' +prefs.get("classPath-bin")+  '" ' + prefs.get("saxon-bin") + ' -t -s:'  + prefs.get("saxon-xml") + ' -xsl:'  + prefs.get("saxon-xsl") + " -o:" + prefs.get("saxon-output"));
+        buildHB('java -cp "' +prefs.get("classPath-bin")+  '" ' + prefs.get("saxon-bin") + ' -t -s:'  + prefs.get("saxon-xml") + ' -xsl:'  + prefs.get("saxon-xsl") + " -o:" + prefs.get("saxon-output") );
     });
 
     CommandManager.register("Configuration...", CONFIG_CMD_ID, function () {

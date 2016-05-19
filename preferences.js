@@ -4,6 +4,7 @@ define(function main(require, exports, module) {
 
     // Default settings
     prefs.definePreference("saxon-bin", "string", "bin/saxon9he.jar");
+    prefs.definePreference("saxon-classpath", "string", "");
     prefs.definePreference("saxon-xsl", "string", "");
     prefs.definePreference("saxon-xml", "string", "");
     prefs.definePreference("saxon-output", "string", "");
@@ -14,6 +15,12 @@ define(function main(require, exports, module) {
         prefs.set("saxon-bin", localStorage["saxon-bin"]);
         localStorage.removeItem("saxon-bin");
     }
+
+    if("saxon-classpath" in localStorage) {
+        prefs.set("saxon-classpath", localStorage["saxon-classpath"]);
+        localStorage.removeItem("saxon-classpath");
+    }
+
     if("saxon-xsl" in localStorage) {
         prefs.set("saxon-xsl", localStorage["saxon-xsl"]);
         localStorage.removeItem("saxon-xsl");
